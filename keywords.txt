@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For EEPROM_24xx1025
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+EEPROMblockAddress	KEYWORD1
+EEPROM_24xx1025	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+read	KEYWORD2
+write	KEYWORD2
+readBlock	KEYWORD2
+writeBlock	KEYWORD2
+incBlockAddress	KEYWORD2
+incCurrentBlockAddress	KEYWORD2
+incLongAddress	KEYWORD2
+incCurrentLongAddress	KEYWORD2
+long2BlockAddress	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
