@@ -31,34 +31,45 @@ ArduinoのWireライブラリバッファは32バイトですが、書き込み�
 構造体と配列のキャストで処理しても良いですがちょっと面倒ですし、書き込みで配列を構造体にキャストするとコンパイル時にwarningが出ます。readBlock(), writeBlock()を使えばコンパイル時にwarningを出すことなく、かつ簡単に構造体の読み書きができます。E24.hを参考にしました。
 
 ## 使い方
-### メモリアドレス指定
-24AA1025/24LC21025/24FC1025は１ブロック0~0xFFFF (0x10000byte) が基本的なメモリ空間で、１つのチップに２つのブロックがあります。各ブロックのアクセスはI2Cアドレスで区別します。
 
-EEPROM_24xx1025は、チップ本来のメモリアドレスおよびデバイスを指定した順に各ブロックにつけたブロック番号（0-7）を元にしたアクセスと、全てのメモリを連続したメモリ空間 (すなわち、最大0-0x7FFFF)としてアクセスの２つの方法が使えます。ここでは後者の方法を説明します。
+### コンストラクタ
+```
+EEPROM_24xx1025 eeprom1025(EPR_ADDR0, EPR_ADDR1, EPR_ADDR2, EPR_ADDR3)；
+```
 
-### EEPROM_24xx1025 eeprom1025(EPR_ADDR0, EPR_ADDR1, EPR_ADDR2, EPR_ADDR3)；
-使用するEEPROMのI2Cアドレスを指定します。最大4つ指定できます。順序は自由です。指定した順にブロック番号、連続メモリアドレスが割り振られます。I2Cアドレスは以下の通りです。
+使用するEEPROMのI2Cアドレスを指定します。最大4つ指定できます。順序は自由です。指定した順にブロック番号（0\-7）、連続メモリアドレス(0\-0x7FFFF)が割り振られます。I2Cアドレスは以下の通りです。
 
 * EPR_ADDR0: 0x50
 * EPR_ADDR1: 0x51
 * EPR_ADDR2: 0x52
 * EPR_ADDR3: 0x53
 
-### byte write(long longAddr, byte b);
+### メモリアドレス指定
+24AA1025/24LC21025/24FC1025は１ブロック0\-0xFFFF (0x10000byte) が基本的なメモリ空間で、１つのチップに２つのブロックがあります。各ブロックのアクセスはI2Cアドレスで区別します。
+
+EEPROM_24xx1025は、デバイスを指定した順に各ブロックにつけたブロック番号（0-7）とそのブロックのメモリアドレスを元にしたアクセスと、全てのメモリを連続したメモリ空間 (すなわち、最大0\-0x7FFFF)としたアクセスの２つの方法が使えます。ここでは後者の方法を説明します。
+```
+byte write(long longAddr, byte b);
+```
 指定したアドレス(longAddr)に1バイト(b)を書き込みます。実際に書き込みしたバイト数を返します。
-
-### int write(long longAddr, byte b[], int len);
+```
+int write(long longAddr, byte b[], int len);
+```
 指定したアドレス(longAddr)に配列bからlenバイトを書き込みます。実際に書き込みしたバイト数を返します。
-
-### byte read(long longAddr);
+```
+byte read(long longAddr);
+```
 指定したアドレス(longAddr)から1バイト読み込みます。
 読み込んだデータを返します。
-
-### int read(long longAddr, byte b[], int len);
+```
+int read(long longAddr, byte b[], int len);
+```
 指定したアドレス(longAddr)から配列bにlenバイトを読み込みます。実際に読み込んだバイト数を返します。
-
-### long readBlock(long longAddr, T& data);
+```
+long readBlock(long longAddr, T& data);
+```
 指定したアドレス(longAddr)から構造体dataにデータを読み込みます。
-
-### long writeBlock(long longAddr, T& data);
+```
+long writeBlock(long longAddr, T& data);
+```
 指定したアドレス(longAddr)に構造体dataからデータを書き込みます。
