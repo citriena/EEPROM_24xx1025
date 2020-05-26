@@ -40,48 +40,48 @@
 #define EEPROM1025_ADDRESS_LIMIT 0xFFFF   // maximun Address of a menory block
 
 typedef struct {
-  byte block;
-  unsigned int address;
+  uint8_t block;
+  uint16_t address;
 } EEPROMblockAddress;
 
 class EEPROM_24xx1025 {
 
 public:
 
-    EEPROM_24xx1025(byte epr_addr0);
-    EEPROM_24xx1025(byte epr_addr0, byte epr_addr1);
-    EEPROM_24xx1025(byte epr_addr0, byte epr_addr1, byte epr_addr2);
-    EEPROM_24xx1025(byte epr_addr0, byte epr_addr1, byte epr_addr2, byte epr_addr3);
+    EEPROM_24xx1025(uint8_t epr_addr0);
+    EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1);
+    EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t epr_addr2);
+    EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t epr_addr2, uint8_t epr_addr3);
 
-    int write(byte block, unsigned int addr, byte b[], int len);
-    byte write(byte block, unsigned int addr, byte b);
-    int write(long longAddr, byte b[], int len);
-    byte write(long longAddr, byte b);
+    int16_t write(uint8_t block, uint16_t addr, uint8_t b[], int16_t len);
+    uint8_t write(uint8_t block, uint16_t addr, uint8_t b);
+    int16_t write(long longAddr, uint8_t b[], int16_t len);
+    uint8_t write(long longAddr, uint8_t b);
 
-    int read(byte block, unsigned int addr, byte b[], int len);
-    byte read(byte block, unsigned int addr);
-    int read(long longAddr, byte b[], int len);
-    byte read(long longAddr);
+    int16_t read(uint8_t block, uint16_t addr, uint8_t b[], int16_t len);
+    uint8_t read(uint8_t block, uint16_t addr);
+    int16_t read(long longAddr, uint8_t b[], int16_t len);
+    uint8_t read(long longAddr);
 
-    EEPROMblockAddress incBlockAddress(byte block, unsigned int addr, unsigned int increment);
-    long incLongAddress(long longAddr, unsigned int increment);
+    EEPROMblockAddress incBlockAddress(uint8_t block, uint16_t addr, uint16_t increment);
+    long incLongAddress(long longAddr, uint16_t increment);
     EEPROMblockAddress long2BlockAddress(long longAddr);
 
-    byte maxBlock;
+    uint8_t maxBlock;
     long maxLongAddress;          // maximum long address
 
     template <typename T> long readBlock(long longAddr, T& data) {
-      return read(longAddr, (byte*)&data, sizeof(data));
+      return read(longAddr, (uint8_t*)&data, sizeof(data));
     }
 
     template <typename T> long writeBlock(long longAddr, T& data) {
-      return write(longAddr, (byte*)&data, sizeof(data));
+      return write(longAddr, (uint8_t*)&data, sizeof(data));
     }
 
 
 private:
 
-    byte _EPR_ADDR[8];
+    uint8_t _EPR_ADDR[8];
 };
 
 #endif
