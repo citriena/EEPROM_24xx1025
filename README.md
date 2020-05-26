@@ -1,6 +1,6 @@
 # EEPROM_24xx1025
 
-EEPROM_24xx1025 is a Arduino library for external I2C EEPROM (Microchip 24AA1025/24LC21025/24FC1025).
+EEPROM_24xx1025 is an Arduino library for external I2C EEPROM (Microchip 24AA1025/24LC21025/24FC1025).
 
 ## Features
 * Support up to 4 devices on the bus read and write seamlessly beyond a block as a single address space
@@ -49,27 +49,27 @@ EEPROM_24xx1025 eeprom1025(EPR_ADDR0, EPR_ADDR1, EPR_ADDR2, EPR_ADDR3)；
 
 EEPROM_24xx1025は、デバイスを指定した順に各ブロックにつけたブロック番号（0-7）とそのブロックのメモリアドレスを元にしたアクセスと、全てのメモリを連続したメモリ空間 (すなわち、最大0\-0x7FFFF)としたアクセスの２つの方法が使えます。ここでは後者の方法を説明します。
 ```
-byte write(long longAddr, byte b);
+uint8_t write(int32_t longAddr, uint8_t b);
 ```
 指定したアドレス(longAddr)に1バイト(b)を書き込みます。実際に書き込みしたバイト数を返します。
 ```
-int write(long longAddr, byte b[], int len);
+int16_t write(int32_t longAddr, uint8_t b[], int16_t len);
 ```
 指定したアドレス(longAddr)に配列bからlenバイトを書き込みます。実際に書き込みしたバイト数を返します。
 ```
-byte read(long longAddr);
+uint8_t read(int32_t longAddr);
 ```
 指定したアドレス(longAddr)から1バイト読み込みます。
 読み込んだデータを返します。
 ```
-int read(long longAddr, byte b[], int len);
+int16_t read(long longAddr, uint8_t b[], int16_t len);
 ```
 指定したアドレス(longAddr)から配列bにlenバイトを読み込みます。実際に読み込んだバイト数を返します。
 ```
-long readBlock(long longAddr, T& data);
+int32_t readBlock(int32_t longAddr, T& data);
 ```
 指定したアドレス(longAddr)から構造体dataにデータを読み込みます。
 ```
-long writeBlock(long longAddr, T& data);
+int32_t writeBlock(int32_t longAddr, T& data);
 ```
 指定したアドレス(longAddr)に構造体dataからデータを書き込みます。
