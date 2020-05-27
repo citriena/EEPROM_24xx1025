@@ -55,27 +55,27 @@ public:
 
     int16_t write(uint8_t block, uint16_t addr, uint8_t b[], int16_t len);
     uint8_t write(uint8_t block, uint16_t addr, uint8_t b);
-    int16_t write(long longAddr, uint8_t b[], int16_t len);
-    uint8_t write(long longAddr, uint8_t b);
+    int16_t write(int32_t longAddr, uint8_t b[], int16_t len);
+    uint8_t write(int32_t longAddr, uint8_t b);
 
     int16_t read(uint8_t block, uint16_t addr, uint8_t b[], int16_t len);
     uint8_t read(uint8_t block, uint16_t addr);
-    int16_t read(long longAddr, uint8_t b[], int16_t len);
-    uint8_t read(long longAddr);
+    int16_t read(int32_t longAddr, uint8_t b[], int16_t len);
+    uint8_t read(int32_t longAddr);
 
     EEPROMblockAddress incBlockAddress(uint8_t block, uint16_t addr, uint16_t increment);
-    long incLongAddress(long longAddr, uint16_t increment);
-    EEPROMblockAddress long2BlockAddress(long longAddr);
+    int32_t incLongAddress(int32_t longAddr, uint16_t increment);
+    EEPROMblockAddress long2BlockAddress(int32_t longAddr);
 
     uint8_t maxBlock;
-    long maxLongAddress;          // maximum long address
+    int32_t maxLongAddress;          // maximum long address
 
-    template <typename T> long readBlock(long longAddr, T& data) {
-      return read(longAddr, (uint8_t*)&data, sizeof(data));
+    template <typename T> int16_t writeBlock(int32_t longAddr, T& data) {
+      return write(longAddr, (uint8_t*)&data, sizeof(data));
     }
 
-    template <typename T> long writeBlock(long longAddr, T& data) {
-      return write(longAddr, (uint8_t*)&data, sizeof(data));
+    template <typename T> int16_t readBlock(int32_t longAddr, T& data) {
+      return read(longAddr, (uint8_t*)&data, sizeof(data));
     }
 
 

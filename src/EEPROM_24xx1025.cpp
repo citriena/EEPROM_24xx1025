@@ -50,7 +50,7 @@ EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t e
 ////////////////////////////////////////////////////////////////////////////////
 
 
-int EEPROM_24xx1025::write(uint8_t blk, unsigned int addr, uint8_t b[], int len) {
+int16_t EEPROM_24xx1025::write(uint8_t blk, uint16_t addr, uint8_t b[], int16_t len) {
   int writeLen;
   int pageLeft;
   int offset = 0;
@@ -79,7 +79,7 @@ int EEPROM_24xx1025::write(uint8_t blk, unsigned int addr, uint8_t b[], int len)
 }
 
 
-uint8_t EEPROM_24xx1025::write(uint8_t blk, unsigned int addr, uint8_t b) {
+uint8_t EEPROM_24xx1025::write(uint8_t blk, uint16_t addr, uint8_t b) {
   uint8_t ans;
   if (blk > maxBlock) return 0;
   Wire.beginTransmission(_EPR_ADDR[blk]);

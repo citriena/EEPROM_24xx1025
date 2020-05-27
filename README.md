@@ -62,14 +62,14 @@ uint8_t read(int32_t longAddr);
 指定したアドレス(longAddr)から1バイト読み込みます。
 読み込んだデータを返します。
 ```
-int16_t read(long longAddr, uint8_t b[], int16_t len);
+int16_t read(int32_t longAddr, uint8_t b[], int16_t len);
 ```
 指定したアドレス(longAddr)から配列bにlenバイトを読み込みます。実際に読み込んだバイト数を返します。
 ```
-int32_t readBlock(int32_t longAddr, T& data);
+int16_t writeBlock(int32_t longAddr, typedef data);
 ```
-指定したアドレス(longAddr)から構造体dataにデータを読み込みます。
+指定したアドレス(longAddr)に構造体typedef dataからデータを書き込みます。
 ```
-int32_t writeBlock(int32_t longAddr, T& data);
+int16_t readBlock(int32_t longAddr, typdef data);
 ```
-指定したアドレス(longAddr)に構造体dataからデータを書き込みます。
+指定したアドレス(longAddr)から構造体typedef dataにデータを読み込みます。
