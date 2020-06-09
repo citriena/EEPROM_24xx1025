@@ -22,6 +22,8 @@ incCurrentBlockAddress	KEYWORD2
 incLongAddress	KEYWORD2
 incCurrentLongAddress	KEYWORD2
 long2BlockAddress	KEYWORD2
+maxBlock	KEYWORD2
+maxLongAddress	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

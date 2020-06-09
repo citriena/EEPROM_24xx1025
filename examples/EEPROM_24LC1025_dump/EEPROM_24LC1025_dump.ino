@@ -22,7 +22,7 @@ void dumpExtEEPROM() {
   byte rData[16];
 
   Serial.println(F("extEEPROM dump start."));
-  for (address = 0; address < eeprom1025.maxLongAddress; address += 16) {
+  for (address = 0; address < eeprom1025.maxLongAddress(); address += 16) {
     eeprom1025.read(address,rData,16);
     Serial.print(address, HEX);
     Serial.print(':');

@@ -13,6 +13,17 @@ So you can read and write data on one virtual memory space without considering a
 ## Usage
 See sample sketches.
 
+## Releases
+
+### 1.0.0 - Mar  4, 2019
+
+### 1.0.1 - May 23, 2020
+* renamed some functions constants and variables
+
+### 1.1.0 - June 09, 2020
+* change public variables private
+* add public functions to access private variables
+
 ## 概要
 EEPROM_24xx1025ライブラリは、ArduinoでMicrochipのEEPROM 24AA1025/24LC21025/24FC1025を使うためのライブラリです。これらのEEPROMは同一バスで最大４個のデバイスを接続可能ですが、単純な読み書きのコマンドでは複数デバイスの扱い、ページ境界の扱いが面倒です。かといって1バイトずつ読み書きしていては効率が悪い上にEEPROMの書き込み制限（10～100万回）上好ましくありません。そこで、これらのデバイスの読み書きを簡単にするために本ライブラリを作成しました。
 
@@ -65,6 +76,10 @@ uint8_t read(int32_t longAddr);
 int16_t read(int32_t longAddr, uint8_t b[], int16_t len);
 ```
 指定したアドレス(longAddr)から配列bにlenバイトを読み込みます。実際に読み込んだバイト数を返します。
+```
+int32_t maxLongAddress();
+```
+指定したデバイス全てのメモリを連続したメモリ空間とした場合の最大アドレスを返します。デバイスを４つ指定した場合は0x7FFFFを返します。
 ```
 int16_t writeBlock(int32_t longAddr, typedef data);
 ```

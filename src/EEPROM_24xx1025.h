@@ -6,11 +6,7 @@
 
 #ifndef EEPROM_24xx1025_h
 #define EEPROM_24xx1025_h
-#if defined(ARDUINO) && ARDUINO >= 100
 #include <Arduino.h> 
-#else
-#include <WProgram.h> 
-#endif
 #include <Wire.h>
 
 // Up to four devices may be connected to the same bus by using different
@@ -67,8 +63,8 @@ public:
     int32_t incLongAddress(int32_t longAddr, uint16_t increment);
     EEPROMblockAddress long2BlockAddress(int32_t longAddr);
 
-    uint8_t maxBlock;
-    int32_t maxLongAddress;          // maximum long address
+    uint8_t maxBlock();
+    int32_t maxLongAddress();          // maximum long address
 
     template <typename T> int16_t writeBlock(int32_t longAddr, T& data) {
       return write(longAddr, (uint8_t*)&data, sizeof(data));
@@ -82,6 +78,8 @@ public:
 private:
 
     uint8_t _EPR_ADDR[8];
+    uint8_t _MAX_BLOCK;
+    int32_t _MAX_LONG_ADDRESS;          // maximum long address
 };
 
 #endif

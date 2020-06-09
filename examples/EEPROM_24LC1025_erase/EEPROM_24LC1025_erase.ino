@@ -21,7 +21,7 @@ void eraseExtEEPROM() {
 
   Serial.println(F("Erasing extEEPROM startted."));
   for (address = 0; address < 30; address ++)fData[address] = 0xFF;
-  for (address = 0; address < eeprom1025.maxLongAddress; address += 16) {
+  for (address = 0; address < eeprom1025.maxLongAddress(); address += 16) {
     if (!(address % 0x400)) {
       Serial.println(address, HEX);
     }

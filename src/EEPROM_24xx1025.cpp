@@ -6,8 +6,8 @@ EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0) {
   Wire.begin();
   _EPR_ADDR[0] = epr_addr0;
   _EPR_ADDR[1] = epr_addr0 | 0b00000100;
-  maxBlock = 1;
-  maxLongAddress = 0x1FFFF;
+  _MAX_BLOCK = 1;
+  _MAX_LONG_ADDRESS = 0x1FFFF;
 }
 
 EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1) {
@@ -16,8 +16,8 @@ EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1) {
   _EPR_ADDR[1] = epr_addr0 | 0b00000100;
   _EPR_ADDR[2] = epr_addr1;
   _EPR_ADDR[3] = epr_addr1 | 0b00000100;
-  maxBlock = 3;
-  maxLongAddress = 0x3FFFF;
+  _MAX_BLOCK = 3;
+  _MAX_LONG_ADDRESS = 0x3FFFF;
 }
 
 EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t epr_addr2) {
@@ -28,8 +28,8 @@ EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t e
   _EPR_ADDR[3] = epr_addr1 | 0b00000100;
   _EPR_ADDR[4] = epr_addr2;
   _EPR_ADDR[5] = epr_addr2 | 0b00000100;
-  maxBlock = 5;
-  maxLongAddress = 0x5FFFF;
+  _MAX_BLOCK = 5;
+  _MAX_LONG_ADDRESS = 0x5FFFF;
 }
 
 
@@ -43,8 +43,8 @@ EEPROM_24xx1025::EEPROM_24xx1025(uint8_t epr_addr0, uint8_t epr_addr1, uint8_t e
   _EPR_ADDR[5] = epr_addr2 | 0b00000100;
   _EPR_ADDR[6] = epr_addr3;
   _EPR_ADDR[7] = epr_addr3 | 0b00000100;
-  maxBlock = 7;
-  maxLongAddress = 0x7FFFF;
+  _MAX_BLOCK = 7;
+  _MAX_LONG_ADDRESS = 0x7FFFF;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ int16_t EEPROM_24xx1025::write(uint8_t blk, uint16_t addr, uint8_t b[], int16_t 
   int ct;
   EEPROMblockAddress blockAddress;
 
-  if (blk > maxBlock) return 0;
+  if (blk > _MAX_BLOCK) return 0;
   writeLen = len;
   blockAddress = {blk, addr};
   do {
@@ -81,7 +81,7 @@ int16_t EEPROM_24xx1025::write(uint8_t blk, uint16_t addr, uint8_t b[], int16_t 
 
 uint8_t EEPROM_24xx1025::write(uint8_t blk, uint16_t addr, uint8_t b) {
   uint8_t ans;
-  if (blk > maxBlock) return 0;
+  if (blk > _MAX_BLOCK) return 0;
   Wire.beginTransmission(_EPR_ADDR[blk]);
   Wire.write(highByte(addr));
   Wire.write(lowByte(addr));
@@ -99,7 +99,7 @@ int16_t EEPROM_24xx1025::write(int32_t longAddr, uint8_t b[], int16_t len) {
 
 
 uint8_t EEPROM_24xx1025::write(int32_t longAddr, uint8_t b) {
-  if (longAddr > maxLongAddress) return 0;
+  if (longAddr > _MAX_LONG_ADDRESS) return 0;
   EEPROMblockAddress blockAddress = long2BlockAddress(longAddr);
   return write(blockAddress.block, blockAddress.address, b);
 } // returns the number of bytes written
@@ -115,7 +115,7 @@ int16_t EEPROM_24xx1025::read(uint8_t blk, uint16_t addr, uint8_t b[], int16_t l
   int32_t romLen;
   EEPROMblockAddress blockAddress;
 
-  if (blk > maxBlock) return 0;
+  if (blk > _MAX_BLOCK) return 0;
   blockAddress = {blk, addr};
   readLen = len;
   do {
@@ -144,7 +144,7 @@ int16_t EEPROM_24xx1025::read(uint8_t blk, uint16_t addr, uint8_t b[], int16_t l
 
 
 uint8_t EEPROM_24xx1025::read(uint8_t blk, uint16_t addr) {
-  if (blk > maxBlock) return 0xFF;
+  if (blk > _MAX_BLOCK) return 0xFF;
   Wire.beginTransmission(_EPR_ADDR[blk]);
   Wire.write(highByte(addr));
   Wire.write(lowByte(addr));
@@ -172,14 +172,14 @@ EEPROMblockAddress EEPROM_24xx1025::incBlockAddress(uint8_t blk, uint16_t addr, 
 	addr += increment;
 	if (addr < increment) {  // when wrap around happened
 		blk++;
-		if (blk > maxBlock) blk = 0;
+		if (blk > _MAX_BLOCK) blk = 0;
 	}
 	return {blk, addr};
 }
 
 int32_t EEPROM_24xx1025::incLongAddress(int32_t longAddr, uint16_t increment) {
 	longAddr += increment;
-	if (longAddr > maxLongAddress) longAddr = (longAddr - maxLongAddress - 1);
+	if (longAddr > _MAX_LONG_ADDRESS) longAddr = (longAddr - _MAX_LONG_ADDRESS - 1);
 	return longAddr;
 }
 
@@ -188,4 +188,14 @@ EEPROMblockAddress EEPROM_24xx1025::long2BlockAddress(int32_t longAddr) {
    uint8_t blk = (uint8_t)(longAddr >> 16);
    uint16_t addr = (uint16_t)(longAddr & 0x0000FFFF);
    return {blk, addr};
+}
+
+
+uint8_t EEPROM_24xx1025::maxBlock() {
+  return _MAX_BLOCK;
+}
+
+
+int32_t EEPROM_24xx1025::maxLongAddress() {
+  return _MAX_LONG_ADDRESS;
 }
