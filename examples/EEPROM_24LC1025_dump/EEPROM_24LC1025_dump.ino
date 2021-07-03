@@ -1,6 +1,6 @@
-#include <Wire.h>         // http://arduino.cc/en/Reference/Wire (included with Arduino IDE)
+#include <Wire.h>
 #include <Arduino.h>
-#include <EEPROM_24xx1025.h>
+#include <EEPROM_24xx1025.h>   // https://github.com/citriena/EEPROM_24xx1025
 
 EEPROM_24xx1025 eeprom1025(EPR_ADDR0);
 
@@ -27,7 +27,11 @@ void dumpExtEEPROM() {
     Serial.print(address, HEX);
     Serial.print(':');
     for (int i = 0; i < 16; i++) {
-      Serial.print(rData[i],HEX);
+      byte ch = rData[i];
+      if (ch < 0x10) {
+        Serial.print("0");
+      }
+      Serial.print(ch, HEX);
       Serial.print(' ');
     }
     Serial.println();

@@ -2,6 +2,9 @@
 
 EEPROM_24xx1025 is an Arduino library for external I2C EEPROM (Microchip 24AA1025/24LC21025/24FC1025).
 
+https://github.com/citriena/EEPROM_24xx1025  
+(c) citriena (citriena@yahoo.co.jp)
+
 ## Features
 * Support up to 4 devices on the bus read and write seamlessly beyond a block as a single address space
 * Support write data across a page boundary
